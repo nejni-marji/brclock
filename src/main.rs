@@ -76,12 +76,11 @@ const fn to_braille(byte: u8) -> char {
     braille_bytes = f(7, braille_bytes, byte);
 
     // cast it back into a char
-    if let Some(a) = char::from_u32(braille_bytes) {
-        a
-    } else {
+    let Some(c) = char::from_u32(braille_bytes) else {
         // this will never happen
         panic!()
-    }
+    };
+    c
 
     // '⣿'
 }
