@@ -5,12 +5,6 @@ fn main() {
     // get local time
     let now = Local::now();
 
-    // debug crap
-    // #[cfg(debug_assertions)]
-    // let now = now.with_hour(17).unwrap();
-    // #[cfg(debug_assertions)]
-    // let now = now.with_second(33).unwrap();
-
     // debug: show time
     #[cfg(debug_assertions)]
     println!("{now}");
@@ -37,15 +31,12 @@ fn main() {
     // print
     println!("{s}");
 
-    // #[cfg(debug_assertions)]
-    // demo();
+    #[cfg(debug_assertions)]
+    demo();
 }
 
 #[allow(dead_code)]
 fn demo() {
-    // for i in [1, 2, 4, 8, 16, 32, 64, 128, 255] {
-    //     println!("{i:3} {i:08b} {}\n", to_braille(i));
-    // }
     let mut s = String::new();
     for i in 0..16 {
         for j in 0..16 {
@@ -64,16 +55,13 @@ fn to_braille(byte: u8) -> char {
     // braille initial character
     const START: u32  = 0x2800;
     // braille pips are not ordered the way we want
-    // old map: starts at top right
-    // const MAP: [u8;8] = [3, 4, 5, 7, 0, 1, 2, 6];
-    // new map: starts at bottom right
     const MAP: [u8;8] = [7,5,4,3,6,2,1,0];
 
     let mut braille_bytes = START;
 
     // mutate each of the lower 8 bits individually
     for i in 0..8 {
-        let bit: bool = 0 != (byte & 2_u8.pow(i));
+        let bit: bool = 0 != (byte & (1 << i));
         let map: u32 = 1 << MAP[i as usize];
         braille_bytes |= u32::from(bit) * (map);
     }
