@@ -77,8 +77,7 @@ const fn to_braille(byte: u8) -> char {
 
     // cast it back into a char
     let Some(c) = char::from_u32(braille_bytes) else {
-        // this will never happen
-        panic!()
+        panic!("this will never happen")
     };
     c
 
