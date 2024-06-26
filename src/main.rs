@@ -41,9 +41,9 @@ fn demo() {
     for i in 0..16 {
         for j in 0..16 {
             let n: u8 = i*16+j;
-            let c = to_braille(n);
+            let ch = to_braille(n);
             s.push_str(&format!(
-                    "{n:3} \x1b[37;40m{c}\x1b[0m "
+                    "{n:02X} \x1b[37;40m{ch}\x1b[0m "
             ));
         }
         s.push_str("\n\n");
