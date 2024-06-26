@@ -51,23 +51,37 @@ fn demo() {
     println!("{s}");
 }
 
-fn to_braille(byte: u8) -> char {
+const fn to_braille(byte: u8) -> char {
     // braille initial character
     const START: u32  = 0x2800;
     // braille pips are not ordered the way we want
     const MAP: [u8;8] = [7,5,4,3,6,2,1,0];
 
-    let mut braille_bytes = START;
-
     // mutate each of the lower 8 bits individually
-    for i in 0..8 {
+    const fn f(i: u32, braille_bytes: u32, byte: u8) -> u32 {
         let bit: bool = 0 != (byte & (1 << i));
         let map: u32 = 1 << MAP[i as usize];
-        braille_bytes |= u32::from(bit) * (map);
+        braille_bytes | ((bit as u32) * (map))
     }
 
+    let mut braille_bytes = START;
+    // for loops are forbidden in const
+    braille_bytes = f(0, braille_bytes, byte);
+    braille_bytes = f(1, braille_bytes, byte);
+    braille_bytes = f(2, braille_bytes, byte);
+    braille_bytes = f(3, braille_bytes, byte);
+    braille_bytes = f(4, braille_bytes, byte);
+    braille_bytes = f(5, braille_bytes, byte);
+    braille_bytes = f(6, braille_bytes, byte);
+    braille_bytes = f(7, braille_bytes, byte);
+
     // cast it back into a char
-    char::from_u32(braille_bytes)
-        .expect("we really hope this works lol")
+    if let Some(a) = char::from_u32(braille_bytes) {
+        a
+    } else {
+        // this will never happen
+        '?'
+    }
+
     // '⣿'
 }
