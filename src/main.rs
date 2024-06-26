@@ -80,7 +80,7 @@ const fn to_braille(byte: u8) -> char {
         a
     } else {
         // this will never happen
-        '?'
+        panic!()
     }
 
     // '⣿'
