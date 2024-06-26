@@ -26,7 +26,7 @@ fn main() {
     let s = SimpleCurlyFormat.format(
         "\x1b[37;41m{}\x1b[37;42m{}\x1b[37;44m{}\x1b[0m",
         hms)
-        .unwrap();
+        .expect("can't format string");
 
     // print
     println!("{s}");
