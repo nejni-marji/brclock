@@ -65,15 +65,12 @@ const fn to_braille(byte: u8) -> char {
     }
 
     let mut braille_bytes = START;
-    // for loops are forbidden in const
-    braille_bytes = f(0, braille_bytes, byte);
-    braille_bytes = f(1, braille_bytes, byte);
-    braille_bytes = f(2, braille_bytes, byte);
-    braille_bytes = f(3, braille_bytes, byte);
-    braille_bytes = f(4, braille_bytes, byte);
-    braille_bytes = f(5, braille_bytes, byte);
-    braille_bytes = f(6, braille_bytes, byte);
-    braille_bytes = f(7, braille_bytes, byte);
+    // manual for loop
+    let mut i = 0;
+    loop {
+        braille_bytes = f(i, braille_bytes, byte);
+        i += 1; if 8<=i { break }
+    }
 
     // cast it back into a char
     let Some(c) = char::from_u32(braille_bytes) else {
